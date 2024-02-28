@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "stack.h"
 
 typedef void *ElemType;
 typedef int Status;
@@ -65,6 +66,36 @@ Status preorder_traverse(BinaryTree T, Status (*visit)(ElemType))
     else
     {
         return 0;
+    }
+}
+
+Status inorder_travese(BinaryTree T, Status (*visit)(ElemType))
+{
+    Stack S;
+    BinaryTree p;
+
+    init_stack(&S);
+    push(&S, T);
+
+    while (!is_StackEmpty(S))
+    {
+        // 左子树压栈
+        while (get_top(S, &p) && p)
+        {
+            push(&S, p->Lchild);
+        }
+
+        // 否则，遇到左子树为空的时候，退栈,然后右子树压栈
+        pop(&S, &p);
+        if (!is_StackEmpty(S))
+        {
+            pop(&S, &p);
+            if (!visit(p->data))
+            {
+                return -1;
+            }
+            push(&S, p->Rchild);
+        }
     }
 }
 
