@@ -85,7 +85,7 @@ Status inorder_travese(BinaryTree T, Status (*visit)(ElemType))
             push(&S, p->Lchild);
         }
 
-        // 否则，遇到左子树为空的时候，退栈,然后右子树压栈
+        // 否则，p为null的时候，退栈,然后右子树压栈
         pop(&S, &p);
         if (!is_StackEmpty(S))
         {
@@ -97,5 +97,7 @@ Status inorder_travese(BinaryTree T, Status (*visit)(ElemType))
             push(&S, p->Rchild);
         }
     }
+    
+    return 0;
 }
 
