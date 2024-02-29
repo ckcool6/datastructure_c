@@ -69,35 +69,78 @@ Status preorder_traverse(BinaryTree T, Status (*visit)(ElemType))
     }
 }
 
-Status inorder_travese(BinaryTree T, Status (*visit)(ElemType))
+Status inorder_travese(BinaryTree T)
 {
     Stack S;
-    BinaryTree p;
+    BinaryTree p = T;
+    BinaryTree q;
 
     init_stack(&S);
-    push(&S, T);
+    q = (BinaryTree)malloc(sizeof(BinaryTreeNode));
 
-    while (!is_StackEmpty(S))
+    while (p || !is_StackEmpty(S))
     {
-        // 左子树压栈
-        while (get_top(S, &p) && p)
+        if (p)
         {
-            push(&S, p->Lchild);
+            push(&S, p);   // 含有左子树的节点进栈
+            p = p->Lchild; // 访问左子树
         }
-
-        // 否则，p为null的时候，退栈,然后右子树压栈
-        pop(&S, &p);
-        if (!is_StackEmpty(S))
+        else
         {
-            pop(&S, &p);
-            if (!visit(p->data))
-            {
-                return -1;
-            }
-            push(&S, p->Rchild);
+            pop(&S, &q);     // 退栈
+            printf(q->data); // 访问根节点
+            p = q->Rchild;   // 访问右子树
         }
     }
-    
+
     return 0;
+}
+
+void copy(BinaryTree T, BinaryTree *newT)
+{
+    if (T == NULL)
+    {
+        (*newT) = NULL;
+        return;
+    }
+
+    else
+    {
+        (*newT) = (BinaryTree)malloc(sizeof(BinaryTreeNode));
+        (*newT)->data = T->data;
+        copy(T->Lchild, (*newT)->Lchild);
+        copy(T->Rchild, (*newT)->Rchild);
+    }
+}
+
+int depth(BinaryTree T)
+{
+    int m, n;
+
+    if (T == NULL)
+        return 0;
+    else
+    {
+        m = depth(T->Lchild);
+        n = depth(T->Rchild);
+
+        if (m > n)
+            return m + 1;
+        else
+            return n + 1;
+    }
+}
+
+int count_node(BinaryTree T)
+{
+    if (T == NULL)
+    {
+        return 0;
+    }
+
+    else
+    {
+        return count_node(T->Lchild) + count_node(T->Rchild) + 1;
+    }
 }
 
