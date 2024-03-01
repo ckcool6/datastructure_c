@@ -16,16 +16,20 @@ void insert_sort(SqList *L)
 
     for (i = 2; i < (*L).length; i++)
     {
+        // 如果前面的元素比后面的小
         if ((*L).r[i].key < (*L).r[i - 1].key)
         {
-            (*L).r[0] = (*L).r[i];     // 暂存在i[0]
+            // 1.
+            (*L).r[0] = (*L).r[i];     // 暂存在r[0]
             (*L).r[i] = (*L).r[i - 1]; // r[i-1]后移
 
+            // 2.有序区从后往前扫描，逐个判断r[0]与有序区的每个元素
             for (j = i - 2; (*L).r[0].key < (*L).r[j].key; j--)
             {
                 (*L).r[j + 1] = (*L).r[j]; // 逐个后移
             }
 
+            // 3.
             (*L).r[j + 1] = (*L).r[0]; // 插入正确位置
         }
     }
@@ -35,13 +39,16 @@ void insert_sort(SqList *L)
 void bi_insert_sort(SqList *L)
 {
     int i, j, low, high;
+
     for (i = 2; i < (*L).length; i++)
     {
-        (*L).r[0] = (*L).r[i];
+
+        (*L).r[0] = (*L).r[i]; // 暂存在r[0]
 
         low = 1;
         high = i - 1;
 
+        // 2.扫描有序区，用二分查找法定位区间
         while (low <= high)
         {
             int m = (low + high) / 2;
@@ -53,16 +60,48 @@ void bi_insert_sort(SqList *L)
                 low = m + 1;
         }
 
+        // 从被定位区间往后扫描
         for (j = i - 1; j >= high + 1; j--)
         {
             (*L).r[j + 1] = (*L).r[j];
         }
 
-        (*L).r[high + 1] = (*L).r[0];
+        (*L).r[high + 1] = (*L).r[0]; // 插入正确的位置
     }
 }
 
-// 希尔排序 todo
-void shell_insert()
+// 希尔排序 缩小增量排序，分成子序列，每个子序列进行插入排序
+void shell_insert(SqList *L, int dk)
 {
+    int i, j;
+    // 对L进行增量为dk的插入排序
+    for (i = dk + 1; i < (*L).length; i++)
+    {
+        // 如果前面的元素比后面的小
+        if ((*L).r[i].key < (*L).r[i - dk].key)
+        {
+            (*L).r[0] = (*L).r[i]; // 暂存在r0
+
+            // 从后往前扫描
+            for (j = i - dk; j > 0 && (*L).r[0].key < (*L).r[j].key; j = j - dk)
+            {
+                (*L).r[j + dk] = (*L).r[j]; // 后移
+            }
+
+            (*L).r[j + dk] = (*L).r[0]; // 插入
+        }
+    }
 }
+
+void shell_sort(SqList *L, int dt[], int t)
+{
+    for (size_t k = 0; k < t; k++)
+    {
+        shell_insert(&L, dt[k]);
+    }
+}
+
+/* 交换类 */
+
+// 冒泡排序
+
