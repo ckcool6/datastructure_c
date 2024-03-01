@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "sqList.h"
+#include <stdbool.h>
 
 /*
 插入类
@@ -104,4 +105,30 @@ void shell_sort(SqList *L, int dt[], int t)
 /* 交换类 */
 
 // 冒泡排序
+void bubble_sort(SqList *L)
+{
+    int m = (*L).length - 1;
+    bool flag = true; // 是否发生交换
 
+    while ((m > 0) && (flag == true))
+    {
+        flag = false; // 没有发生交换的情况下，不会执行下一趟排序
+        for (size_t j = 1; j <= m; j++)
+        {
+            if ((*L).r[j].key > (*L).r[j + 1].key)
+            {
+                RecordType t;
+
+                flag = true; // 改为ture，表示发生了交换
+
+                // 交换
+                t = (*L).r[j];
+                (*L).r[j] = (*L).r[j + 1];
+                (*L).r[j + 1] = t;
+            }
+        }
+        m--;
+    }
+}
+
+// 快速排序
