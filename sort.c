@@ -132,3 +132,47 @@ void bubble_sort(SqList *L)
 }
 
 // 快速排序
+int partition(SqList *L, int low, int high)
+{
+    while (low < high)
+    {
+        //设置基准
+        (*L).r[0] = (*L).r[low];
+        int pivotkey = (*L).r[low].key;
+
+        //比枢纽小的记录移动到低端
+        while (low < high && (*L).r[high].key >= pivotkey)
+        {
+            --high;
+        }
+        (*L).r[low] = (*L).r[high];
+
+        //比枢纽大的记录移动到高端
+        while (low < high && (*L).r[low].key <= pivotkey)
+        {
+            ++low;
+        }
+        (*L).r[high] = (*L).r[low];
+
+    }
+    
+    //
+    (*L).r[low] = (*L).r[0];
+    return low;
+}
+
+void qsort(SqList *L, int low, int high)
+{
+    if (low < high)
+    {
+        int pivotloc = partition(&L, low, high);
+        qsort(&L, low, pivotloc - 1);
+        qsort(&L, pivotloc + 1, high);
+    }
+}
+
+void quick_sort(SqList *L)
+{
+    qsort(&L, 1, L->length);
+}
+
