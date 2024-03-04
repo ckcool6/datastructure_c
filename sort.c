@@ -136,26 +136,25 @@ int partition(SqList *L, int low, int high)
 {
     while (low < high)
     {
-        //设置基准
+        // 设置基准
         (*L).r[0] = (*L).r[low];
         int pivotkey = (*L).r[low].key;
 
-        //比枢纽小的记录移动到低端
+        // 比枢纽小的记录移动到低端
         while (low < high && (*L).r[high].key >= pivotkey)
         {
             --high;
         }
         (*L).r[low] = (*L).r[high];
 
-        //比枢纽大的记录移动到高端
+        // 比枢纽大的记录移动到高端
         while (low < high && (*L).r[low].key <= pivotkey)
         {
             ++low;
         }
         (*L).r[high] = (*L).r[low];
-
     }
-    
+
     //
     (*L).r[low] = (*L).r[0];
     return low;
@@ -176,3 +175,31 @@ void quick_sort(SqList *L)
     qsort(&L, 1, L->length);
 }
 
+/*选择类*/
+
+// 直接选择排序
+void select_sort(SqList *L)
+{
+    for (size_t i = 1; i < (*L).length; i++)
+    {
+        int min_index = i;
+        for (size_t j = i + 1; j <= (*L).length; j++)
+        {
+            if ((*L).r[j].key < (*L).r[min_index].key)
+            {
+                min_index = j; // 最小记录min_index指向j
+            }
+            if (min_index != i)
+            {
+                //交换r[i]与r[min_index]
+                RecordType temp = (*L).r[i];
+                (*L).r[i] = (*L).r[min_index];
+                (*L).r[min_index] = temp;
+            }
+        }
+    }
+}
+
+// 树选择排序
+
+// 堆排序
