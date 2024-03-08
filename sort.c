@@ -191,7 +191,7 @@ void select_sort(SqList *L)
             }
             if (min_index != i)
             {
-                //交换r[i]与r[min_index]
+                // 交换r[i]与r[min_index]
                 RecordType temp = (*L).r[i];
                 (*L).r[i] = (*L).r[min_index];
                 (*L).r[min_index] = temp;
@@ -200,6 +200,55 @@ void select_sort(SqList *L)
     }
 }
 
-// 树选择排序
+/*树形选择排序*/
 
-// 堆排序
+// 堆排序,最大的上浮，大根堆
+
+void heap_adjust(SqList *L, int s, int m)
+{
+    RecordType parent = (*L).r[s];
+
+    for (size_t j = 2 * s; j <= m; j = j * 2) // 纵向
+    {
+        if (j < m && (*L).r[j].key < (*L).r[j + 1].key) // 横向
+        {
+            j++;
+        }
+
+        if (parent.key >= (*L).r[j].key)
+        {
+            break;
+        }
+
+        (*L).r[s] = (*L).r[j]; // 交换父子节点
+        s = j;
+    }
+
+    (*L).r[s] = parent;
+}
+
+void create_heap(SqList *L)
+{
+    int n = (*L).length;
+
+    for (size_t i = n / 2; i > 0; i--)
+    {
+        heap_adjust(&L, i, n);
+    }
+}
+
+void heap_sort(SqList *L)
+{
+    create_heap(&L);
+
+    for (size_t i = (*L).length; i > 1; i--)
+    {
+        RecordType x = (*L).r[1];
+        (*L).r[1] = (*L).r[i];
+        (*L).r[i] = x;
+        heap_adjust(&L, 1, i - 1);
+    }
+}
+
+/**/
+// 归并排序
