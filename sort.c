@@ -227,6 +227,7 @@ void heap_adjust(SqList *L, int s, int m)
     (*L).r[s] = parent;
 }
 
+// 创建大根堆
 void create_heap(SqList *L)
 {
     int n = (*L).length;
@@ -237,18 +238,28 @@ void create_heap(SqList *L)
     }
 }
 
+// 初建大根堆，反复交换堆顶和最后一个元素，重新调整堆
 void heap_sort(SqList *L)
 {
     create_heap(&L);
 
     for (size_t i = (*L).length; i > 1; i--)
     {
+        // 将堆顶记录和当前未排序子序列[1..i]中最后一个记录互换
         RecordType x = (*L).r[1];
         (*L).r[1] = (*L).r[i];
         (*L).r[i] = x;
+
+        // [1..i-1]重新调整为大根堆
         heap_adjust(&L, 1, i - 1);
     }
 }
 
-/**/
+/*归并类*/
+
 // 归并排序
+void merge(RecordType R[], RecordType T[], int low, int mid, int high)
+{
+    //todo
+}
+

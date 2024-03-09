@@ -149,5 +149,5 @@ Status assign(Array *A, ElemType e, ...)
 
 int main()
 {
-    printf("=======array-test========\n");
+    printf("=======array-test========\n");    
 }
