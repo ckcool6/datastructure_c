@@ -258,8 +258,62 @@ void heap_sort(SqList *L)
 /*归并类*/
 
 // 归并排序
+
+// 子序列的归并
 void merge(RecordType R[], RecordType T[], int low, int mid, int high)
 {
-    //todo
+    int i = low;
+    int j = mid + 1;
+    int k = low;
+
+    // 将[low...mid]和[mid+1...high]并为[low...high]
+    while (i <= mid && j <= high)
+    {
+        if (R[i].key <= R[j].key)
+        {
+            T[k++] = R[i++];
+        }
+        else
+        {
+            T[k++] = R[j++];
+        }
+    }
+
+    while (i <= mid)
+    {
+        // 将剩余的R[i...mid]复制到T中,如果有的话
+        T[k++] = R[i++];
+    }
+
+    while (j <= high)
+    {
+        ////将剩余的R[j...high]复制到T中，如果有的话
+        T[k++] = R[j++];
+    }
 }
 
+void msort(RecordType R[], RecordType T[], int low, int high)
+{
+    RecordType S[MAXSIZE+1];
+
+    if (low == high)
+    {
+        T[low] = R[low];
+    }
+
+    else
+    {
+        int mid = (low + high) / 2;
+        msort(R, S, low, mid);
+        msort(R, S, mid + 1, high);
+        merge(S, T, low, mid, high);
+    }
+}
+
+void merge_sort(SqList *L)
+{
+    msort((*L).r, (*L).r, 1, (*L).length);
+}
+
+//基数排序
+//todo
