@@ -7,6 +7,7 @@ typedef float KeyType;
 typedef int KeyType;
 typedef char *KeyType;
 typedef void* InfoType;
+typedef int Status;
 
 // 宏定义及宏参数加括号是为了避免优先级的问题
 //  对数值类关键字的比较
@@ -35,3 +36,11 @@ typedef struct SStable
 
 } SStable;
 
+typedef struct BinaryTreeNode
+{
+    ElemType data;
+    struct BinaryTreeNode *Lchild;
+    struct BinaryTreeNode *Rchild;
+} BinaryTreeNode;
+
+typedef BinaryTreeNode *BinaryTree;
