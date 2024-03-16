@@ -31,9 +31,10 @@ const RH = -1; // 右高
 void R_rotate(BSTree *p)
 {
     BSTree lc = (*p)->Lchild;  // lc根节点指向p的左子树
-    (*p)->Lchild = lc->Rchild; // 右旋顺时针
-    // p指向新的根节点
+    (*p)->Lchild = lc->Rchild; // lc的右子树变为p的左子树
+    // 右旋
     lc->Rchild = p;
+    // p指向新的根节点
     p = lc;
 }
 
@@ -41,7 +42,8 @@ void R_rotate(BSTree *p)
 void L_rotate(BSTree *p)
 {
     BSTree rc = (*p)->Rchild;
-    (*p)->Rchild = rc->Lchild; // 逆时针左旋
+    (*p)->Rchild = rc->Lchild; 
+    //左旋
     rc->Lchild = p;
     p = rc;
 }
