@@ -160,7 +160,7 @@ void left_balance(BSTree *T)
     case RH:
         BSTree rd = lc->Rchild;
         switch (rd->bf)
-        {
+        { // 修改T及其左孩子的平衡因子
         case LH:
             (*T)->bf = RH;
             lc->bf = EH;
@@ -184,5 +184,36 @@ void left_balance(BSTree *T)
 
 void right_balance(BSTree *T)
 {
-    // todo
+    BSTree rd = (*T)->Rchild;
+
+    switch (rd->bf)
+    {
+    case RH:
+        (*T)->bf = rd->bf = EH;
+        L_rotate(&T); // 单左旋
+        break;
+
+    case LH:
+        BSTree lc = rd->Lchild;
+        switch (lc->bf)
+        { // 修改T及其右孩子的平衡因子
+        case LH:
+            /* code */
+            (*T)->bf = EH;
+            rd->bf = RH;
+            break;
+
+        case EH:
+            (*T)->bf = rd->bf = EH;
+            break;
+        case RH:
+            (*T)->bf = LH;
+            rd->bf = EH;
+            break;
+        }
+        lc->bf = EH;
+        R_rotate((*T)->Rchild);
+        L_rotate(&T);
+        break;
+    }
 }
