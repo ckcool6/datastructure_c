@@ -82,7 +82,7 @@ Status inorder_travese(BinaryTree T)
     {
         if (p)
         {
-            push(&S, p);   // 含有左子树的节点进栈
+            push(&S, p);   // 根节点进栈
             p = p->Lchild; // 访问左子树
         }
         else
